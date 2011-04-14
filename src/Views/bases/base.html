@@ -1,0 +1,65 @@
+{% extends darkness_base %}
+{% block styles %}
+{{block.super}}
+<link href="/styles/ui-blackgreen/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/styles/mbContainer/css/mbContainer.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/styles/pageStyles.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
+{% block scripts %}
+{{block.super}}
+<script type="text/javascript" src="/jscripts/jquery-1.4.min.js"></script>
+<script type="text/javascript" src="/jscripts/jquery-ui-1.7.2.custom.min.js"></script>
+<script type="text/javascript" src="/jscripts/jquery.layout.js"></script>
+<script type="text/javascript" src="/jscripts/jquery.form.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.date').datepicker()
+	$('.my-collapsible').click(function(){
+		 var o = $(this);
+		 o.next('div').toggle('fast');
+	});
+});
+</script>
+{% endblock %}
+{% block analitics %}
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18625214-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+{%endblock%}
+{% block top_logo %}
+ <div style="float: left">
+        <img class="ui-corner-all" src="http://2.bp.blogspot.com/_ar6Mn3tRuAI/S9x7HOs3VFI/AAAAAAAAAHo/hbkEQFNdtds/S259/VLYM+Logo.jpg" 
+        style="padding: 10; margin-left: 20px; margin-top: 13px"; height="77px"/>
+        <img class="ui-corner-all" src="/images/SIMONA.png" height="77px"/>
+ </div>
+ <div   style="float: left; color: white; font-size:50px; 
+        margin-top:15px; margin-bottom:-1;margin-right:50px;padding: 10;">
+    Tinirlji pi cicior</div>
+{% endblock %}
+
+{% block top_menu %}
+	{% include mnTopMenu %}
+{% endblock %}
+
+{% block login_menu %}
+	{% include blLogin %}
+{% endblock %}
+{% block status %}
+	{% if status %}
+<div class="ui-state-error" style="text-align: center">
+	{{status}}
+</div>
+    {% endif %}
+{% endblock %}
+{% block sidebar %}
+	<iframe src="http://www.facebook.com/plugins/like.php?href={{current_server}}&amp;layout=standard&amp;show_faces=false&amp;width=180&amp;action=like&amp;font=lucida+grande&amp;colorscheme=light&amp;height=150" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:180px; height:80px;" allowTransparency="true"></iframe>
+{% endblock %}

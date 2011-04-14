@@ -1,0 +1,3 @@
+class {{m.Name}}Controller(hrh):
+    {%for m in methods %}{{m}}
+{%endfor%}
