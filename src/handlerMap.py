@@ -2,6 +2,7 @@
 from Controllers import BaseControllers
 from Controllers import StaticControllers
 from Controllers import ShellControllers
+from Controllers import MetropolisControllers
 #{%endblock%}
 
 webapphandlers = [
@@ -30,6 +31,17 @@ webapphandlers = [
 ('/admin/stat.do', ShellControllers.StatementController),
 #{%endblock%}
 
+#{%block MetropolisControllers%}
+('/Metropolis/Company', MetropolisControllers.CompanyController),
+('/Metropolis/Shop', MetropolisControllers.ShopController),
+('/Metropolis/Product', MetropolisControllers.ProductController),
+('/Metropolis/ShopProduct', MetropolisControllers.ShopProductController),
+('/Metropolis/UserProfile', MetropolisControllers.UserProfileController),
+('/Metropolis/ShoppingCard', MetropolisControllers.ShoppingCardController),
+('/Metropolis/ShopingItem', MetropolisControllers.ShopingItemController),
+('/Metropolis/Promotion', MetropolisControllers.PromotionController),
+('/Metropolis/Grouper', MetropolisControllers.GrouperController),
+#{%endblock%}
 #{%endblock%}
 ('/(.*)', StaticControllers.NotExistsController),
 ]

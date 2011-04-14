@@ -35,7 +35,9 @@ def setProperties(p, model):
         if config.types.has_key(t[1]): 
             prop.Type = config.types[t[1]]
         else:
-            print 'Not valid property type'
+            print 'Not valid property type \"'+p+'\" in model '+model.Name
+            pprint.pprint(config.types)
+            print 'Not valid property type \"'+p+'\" in model '+model.Name
             return False
         propStart = 2
         if t[1]=='ref':
@@ -53,7 +55,7 @@ def setProperties(p, model):
                                     'collection_name' in y,
                                    t[propStart])
             if not has_coll_name:
-                prop.Options.append('collection_name=\''+prop.Name.lower()+'_'+model.Name.lower()+'s\'')
+                prop.Options.append("collection_name='"+prop.Name.lower()+"_"+model.Name.lower()+"s'")
         if len(t)>propStart:
             for op in t[propStart:]:
                 if '=' in op:
@@ -65,9 +67,10 @@ def setProperties(p, model):
         model.Properties.append(prop)
         return True
     else:
-        if len(t)==1 and  t[0]:
-            print 'Must provide Type:'
+        if len(t)==1 and t[0]:
+            print 'Must provide Type for \"'+p+'\" in model '+model.Name
             pprint.pprint(config.types)
+            print 'Must provide Type for \"'+p+'\" in model '+model.Name
         return False
 operations = [(x[0],x[1]) for x in settings.DEFAULT_OPERATIONS.iteritems() 
               if x[1].has_key('view') and x[1]['view']]

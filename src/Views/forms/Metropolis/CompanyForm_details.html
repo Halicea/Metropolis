@@ -1,0 +1,22 @@
+<h2>Company: </h2>
+<form id='CompanyForm' method='post' action='{% url CompanyController %}'>
+    <input type='hidden' name='op' value={{op}}>
+    <input type='hidden' name='key' value={{CompanyForm.instance.key}}></input>
+<table>
+{% for field in CompanyForm %}
+    <tr>
+        <td style="text-align:right;">
+            {{ field.label_tag }}:
+        </td>
+        <td>
+            {{ field }}
+        </td>
+        <td style='color: red;'>
+            {{ field.errors }}
+        </td>
+    <tr>
+{% endfor %}
+</table>
+<input type='submit' value={%if CompanyForm.instance.key%} 'Update' {% else %} 'Create' {%endif%}></input>
+</form>
+<a href='{%url CompanyController%}'>Back</a>
