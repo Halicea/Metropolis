@@ -92,7 +92,7 @@ types =\
         'float'     : 'db.FloatProperty',
         'ref'       : 'db.ReferenceProperty',
         'selfref'   : 'db.SelfReferenceProperty',
-        'list'      : 'db.ListProperty',
+        'list'      : 'db.ListProperty', 
         'strlist'   : 'db.StringListProperty',
         'cat'       : 'db.CategoryProperty', 
         'link'      : 'db.LinkProperty',
