@@ -20,18 +20,6 @@ $(document).ready(function() {
 {% endcomment %}
 <div id="menu" style="padding-left: 15px; margin-top: -5px;position: relative;" >
     <ul class="sf-menu">
-        <li><a href='{% url SearchController %}'>Dictsionar</a>
-        {% if current_user %}
-            {% if current_user.IsAdmin %}
-                <ul>
-                    <li><a href='{% url WordController %}?op=shw'>New Word</a></li>
-                    <li><a href='{% url WordController %}?op=lst'>List Words</a></li>
-                	<li><a href='{% url DictionaryController %}?op=lst'>Dictionaries</a></li>
-                	<li><a href='{% url LanguageController %}?op=lst'>Languages</a></li>
-                </ul>
-            {% endif %}
-        {% endif %}
-        </li>
         <li><a href="{% url AboutController %}">About</a></li>
         <li><a href="{% url ContactController %}">Contact</a></li>
         {%comment%}

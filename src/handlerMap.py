@@ -6,7 +6,7 @@ from Controllers import ShellControllers
 
 webapphandlers = [
 #{%block ApplicationControllers %}
-
+('/', BaseControllers.LoginController),
 #{% block BaseControllers %}
 ('/Login', BaseControllers.LoginController),
 ('/Logout',BaseControllers.LogoutController),
