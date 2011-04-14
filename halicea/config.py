@@ -94,7 +94,7 @@ types =\
         'selfref'   : 'db.SelfReferenceProperty',
         'list'      : 'db.ListProperty',
         'strlist'   : 'db.StringListProperty',
-        'cat'       : 'db.CategoryProperty',
+        'cat'       : 'db.CategoryProperty', 
         'link'      : 'db.LinkProperty',
         'im'        : 'db.IMProperty',
         'geopt'     : 'db.GeoPtProperty',
