@@ -2,6 +2,7 @@ import settings
 from lib.halicea.HalRequestHandler import HalRequestHandler as hrh
 from lib.halicea.decorators import *
 from google.appengine.ext import db
+import urllib
 #{%block imports%}
 from Models.MetropolisModels import Company
 from Forms.MetropolisForms import CompanyForm
@@ -228,6 +229,16 @@ class ProductController(hrh):
             self.status = 'Key not provided'
             return {'op':'ins' ,'ProductForm':ProductForm()}
 
+class ProductSearchController(hrh):
+    def SetOperations(self):
+        self.operations = {'default':{'method':'search'}}
+    def search(self, searchCondition=None, *args, **kwargs):
+        mySearch = urllib.unquote(searchCondition or self.params.searchCondition)
+        if mySearch:
+            return Product.all().fetch(limit=1000, offset=0) or "No product found for <b>%s</b> search!"%mySearch
+        else:
+            return "No Condition given, so no results displayed!"+ str(args)
+        
 class ShopProductController(hrh):
     
     def delete(self,*args):

@@ -5,27 +5,27 @@ from google.appengine.ext import db
 ################
 class Company(db.Model):
     """TODO: Describe Company"""
-    Name= db.StringProperty()
+    Name= db.StringProperty(required=True)
     ContactPhone= db.PhoneNumberProperty()
     ContactPerson= db.StringProperty()
     WebSite= db.LinkProperty()
     Address= db.TextProperty()
-    DateAdded= db.DateProperty()
+    DateAdded= db.DateProperty(auto_now_add=True)
     
     @classmethod
-    def CreateNew(cls ,name,contactphone,contactperson,website,address,dateadded , _isAutoInsert=False):
+    def CreateNew(cls ,name,contactphone,contactperson,website,address, _isAutoInsert=False):
         result = cls(
                      Name=name,
                      ContactPhone=contactphone,
                      ContactPerson=contactperson,
                      WebSite=website,
                      Address=address,
-                     DateAdded=dateadded,)
+                     )
         if _isAutoInsert: result.put()
         return result
     def __str__(self):
         #TODO: Change the method to represent something meaningful
-        return 'Change __str__ method' 
+        return self.Name 
 ## End Company
 
 
@@ -41,10 +41,11 @@ class Shop(db.Model):
     WeekendHoursEnd= db.TimeProperty(required=True, default=22, )
     IsWorkingOnWeekend= db.BooleanProperty(default=True, )
     IsWorkingSunday= db.BooleanProperty(default=False, )
-    DateAdded= db.DateProperty()
+    DateAdded= db.DateProperty(auto_now_add=True)
+    DateModified = db.DateProperty(auto_now=True)
     
     @classmethod
-    def CreateNew(cls ,name,location,contactphone,workingdays,normalhoursstart,normalhoursend,weekendhoursstart,weekendhoursend,isworkingonweekend,isworkingsunday,dateadded , _isAutoInsert=False):
+    def CreateNew(cls ,name,location,contactphone,workingdays,normalhoursstart,normalhoursend,weekendhoursstart,weekendhoursend,isworkingonweekend,isworkingsunday , _isAutoInsert=False):
         result = cls(
                      Name=name,
                      Location=location,
@@ -55,8 +56,7 @@ class Shop(db.Model):
                      WeekendHoursStart=weekendhoursstart,
                      WeekendHoursEnd=weekendhoursend,
                      IsWorkingOnWeekend=isworkingonweekend,
-                     IsWorkingSunday=isworkingsunday,
-                     DateAdded=dateadded,)
+                     IsWorkingSunday=isworkingsunday,)
         if _isAutoInsert: result.put()
         return result
     def __str__(self):
@@ -71,23 +71,23 @@ class Product(db.Model):
     Image= db.LinkProperty()
     IsFloat= db.BooleanProperty(default=False, )
     UnitName= db.StringProperty()
-    DateAdded= db.DateProperty()
+    DateAdded= db.DateProperty(auto_now_add=True)
+    DateModified = db.DateProperty(auto_now=True)
     
     @classmethod
-    def CreateNew(cls ,name,image,isfloat,unitname,dateadded , _isAutoInsert=False):
+    def CreateNew(cls ,name,image,isfloat,unitname, _isAutoInsert=False):
         result = cls(
                      Name=name,
                      Image=image,
                      IsFloat=isfloat,
                      UnitName=unitname,
-                     DateAdded=dateadded,)
+                     )
         if _isAutoInsert: result.put()
         return result
     def __str__(self):
         #TODO: Change the method to represent something meaningful
         return 'Change __str__ method' 
 ## End Product
-
 
 class ShopProduct(db.Model):
     """TODO: Describe ShopProduct"""
@@ -97,11 +97,17 @@ class ShopProduct(db.Model):
     Image= db.LinkProperty()
     Price= db.FloatProperty()
     PriceCurrency= db.StringProperty()
+    #Promotion
     IsPromotion= db.BooleanProperty()
     PromotionPrice= db.FloatProperty()
+    #End Promotion
+    #Grouper
     IsGrouper= db.BooleanProperty()
     GrouperPrice= db.FloatProperty()
+    #End Promotion
     Count= db.FloatProperty()
+    DateAdded= db.DateProperty(auto_now_add=True)
+    DateModified = db.DateProperty(auto_now=True)
     
     @classmethod
     def CreateNew(cls ,productitem,isactive,name,image,price,pricecurrency,ispromotion,promotionprice,isgrouper,grouperprice,count , _isAutoInsert=False):
@@ -124,12 +130,12 @@ class ShopProduct(db.Model):
         return 'Change __str__ method' 
 ## End ShopProduct
 
-
 class UserProfile(db.Model):
     """TODO: Describe UserProfile"""
     ProfilePicture= db.LinkProperty()
     CurrentLocation= db.GeoPtProperty()
-    
+    DateAdded= db.DateProperty(auto_now_add=True)
+    DateModified = db.DateProperty(auto_now=True)
     @classmethod
     def CreateNew(cls ,profilepicture,currentlocation , _isAutoInsert=False):
         result = cls(
@@ -142,21 +148,19 @@ class UserProfile(db.Model):
         return 'Change __str__ method' 
 ## End UserProfile
 
-
 class ShoppingCard(db.Model):
     """TODO: Describe ShoppingCard"""
     Total= db.FloatProperty()
     IsReal= db.BooleanProperty(default=False, )
     IsApproved= db.BooleanProperty(default=False, )
-    DateCreated= db.DateTimeProperty()
-    
+    DateCreated= db.DateProperty(auto_now_add=True)
     @classmethod
-    def CreateNew(cls ,total,isreal,isapproved,datecreated , _isAutoInsert=False):
+    def CreateNew(cls ,total,isreal,isapproved, _isAutoInsert=False):
         result = cls(
                      Total=total,
                      IsReal=isreal,
                      IsApproved=isapproved,
-                     DateCreated=datecreated,)
+                     )
         if _isAutoInsert: result.put()
         return result
     def __str__(self):
@@ -209,7 +213,6 @@ class Promotion(db.Model):
         #TODO: Change the method to represent something meaningful
         return 'Change __str__ method' 
 ## End Promotion
-
 
 class Grouper(db.Model):
     """TODO: Describe Grouper"""

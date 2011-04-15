@@ -136,7 +136,7 @@ class HalRequestHandler( webapp.RequestHandler ):
                     outresult = self.operations[self.op]['method'](self, *args, **kwargs)
         else:
             if isinstance(self.operations['default']['method'], str):
-                outresult = getattr(self, self.operations['default']['method'])()
+                outresult = getattr(self, self.operations['default']['method'])(*args, **kwargs)
             else:
                 if hasattr(self, self.operations['default']['method'].__name__):
                     outresult = getattr(self, self.operations['default']['method'].__name__)(self, *args, **kwargs)
@@ -146,10 +146,10 @@ class HalRequestHandler( webapp.RequestHandler ):
             self.respond(outresult)
 
     #otherwise we have been redirected
-    def get(self, *args):
-        self.__route__('GET', *args)
-    def post(self, *args):
-        self.__route__('POST', *args)
+    def get(self, *args, **kwargs):
+        self.__route__('GET', *args, **kwargs)
+    def post(self, *args, **kwargs):
+        self.__route__('POST', *args, **kwargs)
 
     def render_dict( self, basedict ):
         result = dict( basedict )
