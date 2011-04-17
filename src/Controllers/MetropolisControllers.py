@@ -1,5 +1,6 @@
 import settings
-from lib.halicea.HalRequestHandler import HalRequestHandler as hrh
+#from lib.halicea.HalRequestHandler import HalRequestHandler as hrh
+from lib.Metropolis.MetropolisHandler import MetropolisRequestHandler as hrh
 from lib.halicea.decorators import *
 from google.appengine.ext import db
 import urllib
@@ -60,7 +61,7 @@ class CompanyController(hrh):
         else:
             self.SetTemplate(templateName = 'Company_shw.html')
             self.status = 'Form is not Valid'
-            return {'op':'upd', 'CompanyForm': form}
+            return {'op':'update', 'CompanyForm': form}
 
     def edit(self, *args):
         if self.params.key:

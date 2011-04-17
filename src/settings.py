@@ -61,13 +61,6 @@ DEFAULT_OPERATIONS = {
                       'update':{'method':dcm.save, 'view':False},
                       'delete':{'method':dcm.delete, 'view':False},
                      }
-OPENID_PROVIDERS ={
-    'Google':'Google.com/accounts/o8/id', # shorter alternative: "Gmail.com"
-    'Yahoo':'Yahoo.com',
-    #'MySpace.com',
-    'MyOpenID':'MyOpenID.com',
-    # add more here
-}
 #DJANGO APP SETTINGS SECTION
 TEMPLATE_DIRS = (VIEWS_DIR)
 ROOT_URLCONF ='handlerMap'

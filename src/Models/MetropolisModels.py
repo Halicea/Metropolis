@@ -155,6 +155,7 @@ class Profile(db.Model):
 
 class ShoppingCard(db.Model):
     """TODO: Describe ShoppingCard"""
+    Profile = db.ReferenceProperty(Profile, collection_name='profile_shoppingcards')
     Total= db.FloatProperty()
     IsReal= db.BooleanProperty(default=False, )
     IsApproved= db.BooleanProperty(default=False, )

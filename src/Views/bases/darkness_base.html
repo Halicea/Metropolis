@@ -42,16 +42,6 @@
 
 {%endblock%}
 {% block analitics %}
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-5724164-2");
-pageTracker._trackPageview();
-} catch(err) {}</script>
 {%endblock%}
 </head>
 <body style="background-image:url('/images/lime-background-skinny-1.jpg'); background-repeat:no-repeat; background-position: center top;">
@@ -81,20 +71,21 @@ pageTracker._trackPageview();
 		</div> 
 	</div>
 	<div id="middle_content" style="min-height: 603px;" class="ui-widget">
-		 <!-- 
+		{%comment%}
 		 <div id="left_panel_container" style="float: left; width: 120px; height:100% padding: 0px; background-color: blue;">
+			
 			{% block left_pane %}
 				left Pane
 			{% endblock %}
+			
 		</div>
-		 -->
+		{%endcomment%}	
 		<div id="main_container" style="float: left;width: 800px; padding: 0px; margin-right:10px; min-height: 603px;" class="ui-corner-all">
 			{% block status %}
 				Status 
 			{% endblock %}
 			{% block content %}
-			    Main Pane srdfthsrthsrt
-			    srthsrthsrthsr
+			    Main Pane 
 			{% endblock %}
 		</div>
 		
@@ -102,20 +93,7 @@ pageTracker._trackPageview();
 			{% block sidebar %}
 			<ul>
 				<li>
-					<h2>Quote of the day</h2>
-					<p>{{quote}}</p>
-				</li>
-				<li>
-					<h2>Recent Posts</h2>
-					<ul>							
-						<li><a href="{% url PostController %}?PostId={{post.key}}">{{post.Title}}</a></li>		 
-						<li><a href="#">Pellentesque morbi sit veroeros</a></li>
-						<li><a href="#">Magna interdum donec pede</a></li>
-						<li><a href="#">Nisl gravida iaculis auctor vitae</a></li>
-						<li><a href="#">Bibendum sit amet mauris cras</a></li>
-						<li><a href="#">Adipiscing libero et risus donec</a></li>
-						<li><a href="#">Venenatis porttitor morbi quam</a></li>
-					</ul>
+					Some content here
 				</li>
 			</ul>
 			{% endblock %}
@@ -127,7 +105,7 @@ pageTracker._trackPageview();
 	<table><tr>
 	    <td><img src="http://code.google.com/appengine/images/appengine-silver-120x30.gif" alt="Powered by Google App Engine" height="25px" /> </td>
 	    <td>
-	    halicea.com&#169; 2010. | Dictionary Provided by <a href='http://roa-rup.wikipedia.org/wiki/Dina_Cuvata' target='_blank'>Dina Cuvata(Димо Димчев)</a> | Created By Kosta Mihajlov Halicea. |</td> 
+	    halicea.com&#169; 2011.</td> 
 	</tr></table>
 		{% endblock %}
 	</div>
