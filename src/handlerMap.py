@@ -19,9 +19,6 @@ webapphandlers = [
 #{%endblock%}
 
 #{%block StaticControllers%}
-('/Contact', StaticControllers.ContactController),
-('/About', StaticControllers.AboutController),
-('/Links', StaticControllers.LinksController),
 ('/NotAuthorized', StaticControllers.NotAuthorizedController),
 #{%endblock%}
 
