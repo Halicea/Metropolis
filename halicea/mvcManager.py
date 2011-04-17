@@ -95,9 +95,11 @@ def renderController(model=None , baseBlock=None,outputStream=stdout, magicType=
         methodTemplates = []
         for k, v in settings.DEFAULT_OPERATIONS.iteritems():
             if isinstance(v['method'], str):
-                methodTemplates.append(pjoin(MvcTemplateDirs['OPRTMPL_DIR'],v['method']+'.txt'))
+                if exists(pjoin(MvcTemplateDirs['OPRTMPL_DIR'],v['method']+'.txt')):
+                    methodTemplates.append(pjoin(MvcTemplateDirs['OPRTMPL_DIR'],v['method']+'.txt'))
             else:
-                methodTemplates.append(pjoin(MvcTemplateDirs['OPRTMPL_DIR'],v['method'].__name__+'.txt'))
+                if exists(pjoin(MvcTemplateDirs['OPRTMPL_DIR'],v['method'].__name__+'.txt')):
+                    methodTemplates.append(pjoin(MvcTemplateDirs['OPRTMPL_DIR'],v['method'].__name__+'.txt'))
         methodTemplates = list(set(methodTemplates))
     
         methods = map(lambda x: render(x, {'m':m}), methodTemplates)
@@ -194,9 +196,9 @@ def makeMvc(args):
             while p:
                 p = raw_input('Property'+str(i)+'>'+'.'*(9-len(str(i))))
                 if setProperties(p, m): i+=1
-        else:
-            #Create a Model instance out of specific class if exists
-            raise NotImplemented('This feature is not implemented yet')
+#        else:
+#            #Create a Model instance out of specific class if exists
+#            raise NotImplemented('This feature is not implemented yet')
         modelList.append(m)
         
     for m in modelList:
@@ -210,7 +212,7 @@ def makeMvc(args):
                 else:
                     baseBlock =Block.loadFromFile(mvcTemplateFiles["MBTPath"], cblPy, render, {'m':m})
                 stream = open(modelFile, 'w')
-                renderModel(m, baseBlock, stream, magicType=magicType)
+                renderModel(m, baseBlock, stream, magicType=magicType, arg)
                 stream.close()
                 #End Model Setup
             if 'f' in arg:
@@ -222,7 +224,7 @@ def makeMvc(args):
                 else:
                     baseBlock = Block.loadFromFile(mvcTemplateFiles['FBTPath'], cblPy, render, {'m':m})
                 stream = open(mfPath, 'w')
-                renderModelForm(m, baseBlock,stream,magicType)
+                renderModelForm(m, baseBlock,stream,magicType, arg)
                 stream.close()
                 #End ModelForm Setup
             if 'c' in arg:
@@ -263,7 +265,7 @@ def makeMvc(args):
                 #HandlerMap Setup
                 baseBlock = Block.loadFromFile(config.proj_settings.HANDLER_MAP_FILE, cblPy)
                 stream = open(config.proj_settings.HANDLER_MAP_FILE, 'w')
-                renderHandlerMap(m, baseBlock, stream, magicLevel)
+                renderHandlerMap(m, baseBlock, stream, magicLevel, arg)
                 stream.close()
                 #End HandlerMap
 def delMvc(mvc, modelFullName):

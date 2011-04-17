@@ -12,4 +12,4 @@
         else:
             self.SetTemplate(templateName = '{{m.Name}}_shw.html')
             self.status = 'Form is not Valid'
-            return {'op':'upd', '{{m.Name}}Form': form}
+            return {'op':'update', '{{m.Name}}Form': form}
