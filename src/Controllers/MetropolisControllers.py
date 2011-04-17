@@ -129,7 +129,7 @@ class ShopController(hrh):
             self.status = 'Shop is saved'
             self.redirect(ShopController.get_url())
         else:
-            self.SetTemplate(templateName = 'Shop_shw.html')
+            self.SetTemplate(templateName = 'Shop_edit.html')
             self.status = 'Form is not Valid'
             return {'op':'upd', 'ShopForm': form}
 
