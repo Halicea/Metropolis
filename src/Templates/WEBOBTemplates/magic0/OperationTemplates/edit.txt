@@ -8,5 +8,4 @@
                 self.status = '{{m.Name}} does not exists'
                 self.redirect({{m.Name}}Controller.get_url())
         else:
-            self.status = 'Key not provided'
             return {'op':'insert' ,'{{m.Name}}Form':{{m.Name}}Form()}

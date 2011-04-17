@@ -12,8 +12,8 @@ from Models.MetropolisModels import Product
 from Forms.MetropolisForms import ProductForm
 from Models.MetropolisModels import ShopProduct
 from Forms.MetropolisForms import ShopProductForm
-from Models.MetropolisModels import UserProfile
-from Forms.MetropolisForms import UserProfileForm
+from Models.MetropolisModels import Profile
+from Forms.MetropolisForms import ProfileForm
 from Models.MetropolisModels import ShoppingCard
 from Forms.MetropolisForms import ShoppingCardForm
 from Models.MetropolisModels import ShopingItem
@@ -32,6 +32,7 @@ class MetropolisHandlers(hrh):
         from handlerMap import webapphandlers as wah
         response = "<html><title></title><body>{{items}}</body></html>"
         self.respond_static(response.replace("{{items}}", '<br/>'.join(["<a href='"+x[0]+"'>"+x[0]+"</a>" for x in wah])))
+
 class CompanyController(hrh):
     
     def delete(self,*args):
@@ -98,7 +99,7 @@ class CompanyController(hrh):
                 self.redirect(CompanyController.get_url())
         else:
             self.status = 'Key not provided'
-            return {'op':'ins' ,'CompanyForm':CompanyForm()}
+            return {'op':'insert' ,'CompanyForm':CompanyForm()}
 
 class ShopController(hrh):
     
@@ -125,9 +126,9 @@ class ShopController(hrh):
             self.status = 'Shop is saved'
             self.redirect(ShopController.get_url())
         else:
-            self.SetTemplate(templateName = 'Shop_shw.html')
+            self.SetTemplate(templateName = 'Shop_edit.html')
             self.status = 'Form is not Valid'
-            return {'op':'upd', 'ShopForm': form}
+            return {'op':'update', 'ShopForm': form}
 
     def edit(self, *args):
         if self.params.key:
@@ -138,7 +139,6 @@ class ShopController(hrh):
                 self.status = 'Shop does not exists'
                 self.redirect(ShopController.get_url())
         else:
-            self.status = 'Key not provided'
             return {'op':'insert' ,'ShopForm':ShopForm()}
 
     def index(self, *args):
@@ -165,8 +165,7 @@ class ShopController(hrh):
                 self.status = 'Shop does not exists'
                 self.redirect(ShopController.get_url())
         else:
-            self.status = 'Key not provided'
-            return {'op':'ins' ,'ShopForm':ShopForm()}
+            return {'op':'insert' ,'ShopForm':ShopForm()}
 
 class ProductController(hrh):
     
@@ -193,7 +192,7 @@ class ProductController(hrh):
             self.status = 'Product is saved'
             self.redirect(ProductController.get_url())
         else:
-            self.SetTemplate(templateName = 'Product_shw.html')
+            self.SetTemplate(templateName = 'Product_edit.html')
             self.status = 'Form is not Valid'
             return {'op':'upd', 'ProductForm': form}
 
@@ -206,7 +205,6 @@ class ProductController(hrh):
                 self.status = 'Product does not exists'
                 self.redirect(ProductController.get_url())
         else:
-            self.status = 'Key not provided'
             return {'op':'insert' ,'ProductForm':ProductForm()}
 
     def index(self, *args):
@@ -228,13 +226,13 @@ class ProductController(hrh):
         if self.params.key:
             item = Product.get(self.params.key)
             if item:
-                return {'op':'upd', 'ProductForm': ProductForm(instance=item)}
+                return {'op':'update', 'ProductForm': ProductForm(instance=item)}
             else:
                 self.status = 'Product does not exists'
                 self.redirect(ProductController.get_url())
         else:
             self.status = 'Key not provided'
-            return {'op':'ins' ,'ProductForm':ProductForm()}
+            return {'op':'insert' ,'ProductForm':ProductForm()}
 
 class ProductSearchController(hrh):
     def SetOperations(self):
@@ -247,7 +245,6 @@ class ProductSearchController(hrh):
             return "No Condition given, so no results displayed!"+ str(args)
         
 class ShopProductController(hrh):
-    
     def delete(self,*args):
         if self.params.key:
             item = ShopProduct.get(self.params.key)
@@ -271,9 +268,9 @@ class ShopProductController(hrh):
             self.status = 'ShopProduct is saved'
             self.redirect(ShopProductController.get_url())
         else:
-            self.SetTemplate(templateName = 'ShopProduct_shw.html')
+            self.SetTemplate(templateName = 'ShopProduct_edit.html')
             self.status = 'Form is not Valid'
-            return {'op':'upd', 'ShopProductForm': form}
+            return {'op':'update', 'ShopProductForm': form}
 
     def edit(self, *args):
         if self.params.key:
@@ -284,7 +281,6 @@ class ShopProductController(hrh):
                 self.status = 'ShopProduct does not exists'
                 self.redirect(ShopProductController.get_url())
         else:
-            self.status = 'Key not provided'
             return {'op':'insert' ,'ShopProductForm':ShopProductForm()}
 
     def index(self, *args):
@@ -306,57 +302,56 @@ class ShopProductController(hrh):
         if self.params.key:
             item = ShopProduct.get(self.params.key)
             if item:
-                return {'op':'upd', 'ShopProductForm': ShopProductForm(instance=item)}
+                return {'op':'update', 'ShopProductForm': ShopProductForm(instance=item)}
             else:
                 self.status = 'ShopProduct does not exists'
                 self.redirect(ShopProductController.get_url())
         else:
             self.status = 'Key not provided'
-            return {'op':'ins' ,'ShopProductForm':ShopProductForm()}
+            return {'op':'insert' ,'ShopProductForm':ShopProductForm()}
 
-class UserProfileController(hrh):
+class ProfileController(hrh):
     
-    def delete(self,*args):
-        if self.params.key:
-            item = UserProfile.get(self.params.key)
+    def delete(self,*args):    
+        if args[1]:
+            item = Profile.gql("WHERE ProfileName= :p", p=args[1]).get()
             if item:
                 item.delete()
-                self.status ='UserProfile is deleted!'
+                self.status ='Profile is deleted!'
             else:
-                self.status='UserProfile does not exist'
+                self.status='Profile does not exist'
         else:
             self.status = 'Key was not Provided!'
-        self.redirect(UserProfileController.get_url())
+        self.redirect(ProfileController.get_url())
 
     def save(self, *args):
         instance = None
-        if self.params.key:
-            instance = UserProfile.get(self.params.key)
-        form=UserProfileForm(data=self.request.POST, instance=instance)
+        if args[1]:
+            instance = Profile.gql("WHERE ProfileName = :p", p=args[1]).get()
+        form=ProfileForm(data=self.request.POST, instance=instance)
         if form.is_valid():
             result=form.save(commit=False)
             result.put()
-            self.status = 'UserProfile is saved'
-            self.redirect(UserProfileController.get_url())
+            self.status = 'Profile is saved'
+            self.redirect(ProfileController.get_url(result.ProfileName))
         else:
-            self.SetTemplate(templateName = 'UserProfile_shw.html')
+            self.SetTemplate(templateName = 'Profile_edit.html')
             self.status = 'Form is not Valid'
-            return {'op':'upd', 'UserProfileForm': form}
+            return {'op':'update', 'ProfileForm': form}
 
     def edit(self, *args):
-        if self.params.key:
-            item = UserProfile.get(self.params.key)
+        if len(args)>1 and args[1]:
+            item = Profile.gql("WHERE ProfileName = :p", p=args[1]).get()
             if item:
-                return {'op':'update', 'UserProfileForm': UserProfileForm(instance=item)}
+                return {'op':'update', 'ProfileForm': ProfileForm(instance=item)}
             else:
-                self.status = 'UserProfile does not exists'
-                self.redirect(UserProfileController.get_url())
+                self.status = 'Profile does not exists'
+                self.redirect(ProfileController.get_url(args[1]))
         else:
-            self.status = 'Key not provided'
-            return {'op':'insert' ,'UserProfileForm':UserProfileForm()}
+            return {'op':'insert' ,'ProfileForm':ProfileForm()}
 
     def index(self, *args):
-        self.SetTemplate(templateName="UserProfile_index.html")
+        self.SetTemplate(templateName="Profile_index.html")
         results =None
         index = 0; count=20
         try:
@@ -366,21 +361,21 @@ class UserProfileController(hrh):
             pass
         nextIndex = index+count;
         previousIndex = index<=0 and -1 or (index-count>0 and 0 or index-count) 
-        result = {'UserProfileList': UserProfile.all().fetch(limit=count, offset=index)}
+        result = {'ProfileList': Profile.all().fetch(limit=count, offset=index)}
         result.update(locals())
         return result
 
     def details(self, *args):
-        if self.params.key:
-            item = UserProfile.get(self.params.key)
+        if len(args) and args[1]:
+            item = Profile.gql("WHERE ProfileName = :p", p=args[1]).get()
             if item:
-                return {'op':'upd', 'UserProfileForm': UserProfileForm(instance=item)}
+                return {'op':'update', 'ProfileForm': ProfileForm(instance=item)}
             else:
-                self.status = 'UserProfile does not exists'
-                self.redirect(UserProfileController.get_url())
+                self.status = 'Profile does not exists'
+                self.redirect(ProfileController.get_url())
         else:
             self.status = 'Key not provided'
-            return {'op':'ins' ,'UserProfileForm':UserProfileForm()}
+            return {'op':'insert' ,'ProfileForm':ProfileForm()}
 
 class ShoppingCardController(hrh):
     
@@ -407,9 +402,9 @@ class ShoppingCardController(hrh):
             self.status = 'ShoppingCard is saved'
             self.redirect(ShoppingCardController.get_url())
         else:
-            self.SetTemplate(templateName = 'ShoppingCard_shw.html')
+            self.SetTemplate(templateName = 'ShoppingCard_edit.html')
             self.status = 'Form is not Valid'
-            return {'op':'upd', 'ShoppingCardForm': form}
+            return {'op':'update', 'ShoppingCardForm': form}
 
     def edit(self, *args):
         if self.params.key:
@@ -442,13 +437,13 @@ class ShoppingCardController(hrh):
         if self.params.key:
             item = ShoppingCard.get(self.params.key)
             if item:
-                return {'op':'upd', 'ShoppingCardForm': ShoppingCardForm(instance=item)}
+                return {'op':'update', 'ShoppingCardForm': ShoppingCardForm(instance=item)}
             else:
                 self.status = 'ShoppingCard does not exists'
                 self.redirect(ShoppingCardController.get_url())
         else:
             self.status = 'Key not provided'
-            return {'op':'ins' ,'ShoppingCardForm':ShoppingCardForm()}
+            return {'op':'insert' ,'ShoppingCardForm':ShoppingCardForm()}
 
 class ShopingItemController(hrh):
     
@@ -475,9 +470,9 @@ class ShopingItemController(hrh):
             self.status = 'ShopingItem is saved'
             self.redirect(ShopingItemController.get_url())
         else:
-            self.SetTemplate(templateName = 'ShopingItem_shw.html')
+            self.SetTemplate(templateName = 'ShopingItem_edit.html')
             self.status = 'Form is not Valid'
-            return {'op':'upd', 'ShopingItemForm': form}
+            return {'op':'update', 'ShopingItemForm': form}
 
     def edit(self, *args):
         if self.params.key:
@@ -510,13 +505,13 @@ class ShopingItemController(hrh):
         if self.params.key:
             item = ShopingItem.get(self.params.key)
             if item:
-                return {'op':'upd', 'ShopingItemForm': ShopingItemForm(instance=item)}
+                return {'op':'update', 'ShopingItemForm': ShopingItemForm(instance=item)}
             else:
                 self.status = 'ShopingItem does not exists'
                 self.redirect(ShopingItemController.get_url())
         else:
             self.status = 'Key not provided'
-            return {'op':'ins' ,'ShopingItemForm':ShopingItemForm()}
+            return {'op':'insert' ,'ShopingItemForm':ShopingItemForm()}
 
 class PromotionController(hrh):
     
@@ -543,9 +538,9 @@ class PromotionController(hrh):
             self.status = 'Promotion is saved'
             self.redirect(PromotionController.get_url())
         else:
-            self.SetTemplate(templateName = 'Promotion_shw.html')
+            self.SetTemplate(templateName = 'Promotion_edit.html')
             self.status = 'Form is not Valid'
-            return {'op':'upd', 'PromotionForm': form}
+            return {'op':'update', 'PromotionForm': form}
 
     def edit(self, *args):
         if self.params.key:
@@ -578,13 +573,13 @@ class PromotionController(hrh):
         if self.params.key:
             item = Promotion.get(self.params.key)
             if item:
-                return {'op':'upd', 'PromotionForm': PromotionForm(instance=item)}
+                return {'op':'update', 'PromotionForm': PromotionForm(instance=item)}
             else:
                 self.status = 'Promotion does not exists'
                 self.redirect(PromotionController.get_url())
         else:
             self.status = 'Key not provided'
-            return {'op':'ins' ,'PromotionForm':PromotionForm()}
+            return {'op':'insert' ,'PromotionForm':PromotionForm()}
 
 class GrouperController(hrh):
     
@@ -611,7 +606,7 @@ class GrouperController(hrh):
             self.status = 'Grouper is saved'
             self.redirect(GrouperController.get_url())
         else:
-            self.SetTemplate(templateName = 'Grouper_shw.html')
+            self.SetTemplate(templateName = 'Grouper_edit.html')
             self.status = 'Form is not Valid'
             return {'op':'upd', 'GrouperForm': form}
 
@@ -646,10 +641,10 @@ class GrouperController(hrh):
         if self.params.key:
             item = Grouper.get(self.params.key)
             if item:
-                return {'op':'upd', 'GrouperForm': GrouperForm(instance=item)}
+                return {'op':'update', 'GrouperForm': GrouperForm(instance=item)}
             else:
                 self.status = 'Grouper does not exists'
                 self.redirect(GrouperController.get_url())
         else:
             self.status = 'Key not provided'
-            return {'op':'ins' ,'GrouperForm':GrouperForm()}
+            return {'op':'insert' ,'GrouperForm':GrouperForm()}

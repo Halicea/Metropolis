@@ -29,11 +29,11 @@ class ShopProductForm(ModelForm):
         #exclude
 ##End ShopProduct
 
-class UserProfileForm(ModelForm):
+class ProfileForm(ModelForm):
     class Meta():
-        model=UserProfile
+        model=Profile
         #exclude
-##End UserProfile
+##End Profile
 
 class ShoppingCardForm(ModelForm):
     class Meta():

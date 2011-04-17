@@ -1,6 +1,7 @@
 import settings
 from google.appengine.ext import db
 #{% block imports%}
+from Models.BaseModels import Person
 #{%endblock%}
 ################
 class Company(db.Model):
@@ -31,6 +32,7 @@ class Company(db.Model):
 
 class Shop(db.Model):
     """TODO: Describe Shop"""
+    Company = db.ReferenceProperty(reference_class=Company, collection_name="company_shops")
     Name= db.StringProperty(required=True, )
     Location= db.GeoPtProperty(required=True, )
     ContactPhone= db.PhoneNumberProperty()
@@ -61,7 +63,7 @@ class Shop(db.Model):
         return result
     def __str__(self):
         #TODO: Change the method to represent something meaningful
-        return 'Change __str__ method' 
+        return self.Name+"("+self.Company.Name+")"+str(self.Location) 
 ## End Shop
 
 
@@ -85,13 +87,13 @@ class Product(db.Model):
         if _isAutoInsert: result.put()
         return result
     def __str__(self):
-        #TODO: Change the method to represent something meaningful
-        return 'Change __str__ method' 
+        return self.Name 
 ## End Product
 
 class ShopProduct(db.Model):
     """TODO: Describe ShopProduct"""
     ProductItem= db.ReferenceProperty(Product, collection_name='productitem_shopproducts', required=True, )
+    Shop = db.ReferenceProperty(Shop,required=True, collection_name='shop_shopproducts')
     IsActive= db.BooleanProperty(default=True, )
     Name= db.StringProperty(required=True, )
     Image= db.LinkProperty()
@@ -126,19 +128,22 @@ class ShopProduct(db.Model):
         if _isAutoInsert: result.put()
         return result
     def __str__(self):
-        #TODO: Change the method to represent something meaningful
-        return 'Change __str__ method' 
+        return self.Name+' ('+str(self.Price)+' '+self.PriceCurrency+'/'+self.ProductItem.UnitName+')'
 ## End ShopProduct
 
-class UserProfile(db.Model):
+class Profile(db.Model):
     """TODO: Describe UserProfile"""
+    Person = db.ReferenceProperty(reference_class=Person, collection_name='person_profile')
+    ProfileName = db.StringProperty(required=True)
     ProfilePicture= db.LinkProperty()
     CurrentLocation= db.GeoPtProperty()
     DateAdded= db.DateProperty(auto_now_add=True)
     DateModified = db.DateProperty(auto_now=True)
     @classmethod
-    def CreateNew(cls ,profilepicture,currentlocation , _isAutoInsert=False):
+    def CreateNew(cls, person, profilename, profilepicture, currentlocation, _isAutoInsert=False):
         result = cls(
+                     Person=person,
+                     ProfileName=profilename,
                      ProfilePicture=profilepicture,
                      CurrentLocation=currentlocation,)
         if _isAutoInsert: result.put()
@@ -174,36 +179,45 @@ class ShopingItem(db.Model):
     Card= db.ReferenceProperty(ShoppingCard, collection_name='card_shopingitems', required=True, )
     Product= db.ReferenceProperty(Product, collection_name='product_shopingitems', required=True, )
     ShopFrom= db.ReferenceProperty(Shop, collection_name='shopfrom_shopingitems', )
-    Price= db.FloatProperty(default=0, )
-    Count= db.FloatProperty(default=1, )
+    Price= db.FloatProperty(default=0, required=True)
+    Currency = db.FloatProperty(required=True)
+    Count= db.FloatProperty(default=1, required=True)
     
     @classmethod
-    def CreateNew(cls ,card,product,shopfrom,price,count , _isAutoInsert=False):
+    def CreateNew(cls ,card,product,shopfrom,price,currency, count , _isAutoInsert=False):
         result = cls(
                      Card=card,
                      Product=product,
                      ShopFrom=shopfrom,
                      Price=price,
+                     Currency=currency,
                      Count=count,)
         if _isAutoInsert: result.put()
         return result
     def __str__(self):
-        #TODO: Change the method to represent something meaningful
-        return 'Change __str__ method' 
+        return str(self.Price)+str(self.Currency)+'x'+self.Count+'-'+self.Product.Name
 ## End ShopingItem
 
 
 class Promotion(db.Model):
     """TODO: Describe Promotion"""
-    Items= db.StringListProperty()
+    Items= db.ListProperty(db.Key, required=True)
+    Promotors = db.ListProperty(db.Key, required=True)
+    IsCompanyWide = db.BooleanProperty(default=True)
     PromotionLink= db.LinkProperty()
-    DateStart= db.DateProperty()
-    DateEnd= db.DateProperty()
+    DateStart= db.DateProperty(required=True)
+    DateEnd= db.DateProperty(required=True)
     
     @classmethod
-    def CreateNew(cls ,items,promotionlink,datestart,dateend , _isAutoInsert=False):
-        result = cls(
-                     Items=items,
+    def CreateNew(cls ,items,promotionlink,datestart,dateend, isCompanyWide=True, promotors=None , _isAutoInsert=False):
+        if not promotors:
+            promotors = []
+            if isCompanyWide:
+                promotors = [items[0].Shop.Company.key(),]
+            else:
+                promotors = [items[0].Shop.key(),]
+        result = cls(Items=items,
+                     Promotors=promotors,
                      PromotionLink=promotionlink,
                      DateStart=datestart,
                      DateEnd=dateend,)
@@ -211,7 +225,8 @@ class Promotion(db.Model):
         return result
     def __str__(self):
         #TODO: Change the method to represent something meaningful
-        return 'Change __str__ method' 
+        return  ', '.join([x.Name for x in db.get(self.Items)])
+
 ## End Promotion
 
 class Grouper(db.Model):
