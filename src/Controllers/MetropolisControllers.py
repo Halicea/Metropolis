@@ -25,6 +25,13 @@ from Forms.MetropolisForms import GrouperForm
 #{%endblock%}
 ################################
 
+class MetropolisHandlers(hrh):
+    def SetOperations(self):
+        self.operations = {'default':{'method':self.show}}
+    def show(self, *args, **kwargs):
+        from handlerMap import webapphandlers as wah
+        response = "<html><title></title><body>{{items}}</body></html>"
+        self.respond_static(response.replace("{{items}}", '<br/>'.join(["<a href='"+x[0]+"'>"+x[0]+"</a>" for x in wah])))
 class CompanyController(hrh):
     
     def delete(self,*args):
