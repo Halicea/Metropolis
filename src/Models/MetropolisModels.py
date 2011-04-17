@@ -231,8 +231,10 @@ class Promotion(db.Model):
 
 class Grouper(db.Model):
     """TODO: Describe Grouper"""
-    Items= db.StringListProperty()
+    Items= db.ListProperty(db.Key)
     PromotionLink= db.LinkProperty()
+    FullPrice = db.FloatProperty()
+    Currency = db.StringProperty()
     CountsRequired= db.IntegerProperty()
     DateStart= db.DateProperty()
     DateEnd= db.DateProperty()
@@ -249,6 +251,6 @@ class Grouper(db.Model):
         return result
     def __str__(self):
         #TODO: Change the method to represent something meaningful
-        return 'Change __str__ method' 
+        return  ', '.join([x.Name for x in db.get(self.Items)])
 ## End Grouper
 
