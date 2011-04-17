@@ -24,6 +24,17 @@ from Models.MetropolisModels import Grouper
 from Forms.MetropolisForms import GrouperForm
 #{%endblock%}
 ################################
+class ObjectTypes(hrh):
+    def SetOperations(self):
+        self.operations = {'default':{'method':self.default}}
+    def default(self, *args, **kwargs):
+        from handlerMap import webapphandlers as wah
+        a = """<html><head><title>Test</title></head>
+        <body>
+            {{items}}
+        </body></html>"""
+        links = ["<a href='"+x[0]+"'>"+x[0]+'</a>' for x in wah if x[0].startswith('/Metropolis')]
+        self.respond_static(a.replace("{{items}}", '<br/>'.join(links)))
 
 class CompanyController(hrh):
     
@@ -50,7 +61,7 @@ class CompanyController(hrh):
             self.status = 'Company is saved'
             self.redirect(CompanyController.get_url())
         else:
-            self.SetTemplate(templateName = 'Company_shw.html')
+            self.SetTemplate(templateName = 'Company_edit.html')
             self.status = 'Form is not Valid'
             return {'op':'upd', 'CompanyForm': form}
 

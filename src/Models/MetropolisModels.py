@@ -1,5 +1,6 @@
 import settings
 from google.appengine.ext import db
+from lib.geo.geomodel import GeoModel
 #{% block imports%}
 #{%endblock%}
 ################
@@ -28,8 +29,7 @@ class Company(db.Model):
         return self.Name 
 ## End Company
 
-
-class Shop(db.Model):
+class Shop(GeoModel):
     """TODO: Describe Shop"""
     Name= db.StringProperty(required=True, )
     Location= db.GeoPtProperty(required=True, )
@@ -64,10 +64,15 @@ class Shop(db.Model):
         return 'Change __str__ method' 
 ## End Shop
 
-
+class ProductCategory(db.Model):
+    CategoryName = db.StringProperty(required=True)
+    DateAdded= db.DateProperty(auto_now_add=True)
+    DateModified = db.DateProperty(auto_now=True)
+    
 class Product(db.Model):
     """TODO: Describe Product"""
     Name= db.StringProperty(required=True, )
+    Categories = db.ListProperty(db.Key)
     Image= db.LinkProperty()
     IsFloat= db.BooleanProperty(default=False, )
     UnitName= db.StringProperty()
@@ -89,7 +94,7 @@ class Product(db.Model):
         return 'Change __str__ method' 
 ## End Product
 
-class ShopProduct(db.Model):
+class ShopProduct(GeoModel):
     """TODO: Describe ShopProduct"""
     ProductItem= db.ReferenceProperty(Product, collection_name='productitem_shopproducts', required=True, )
     IsActive= db.BooleanProperty(default=True, )
