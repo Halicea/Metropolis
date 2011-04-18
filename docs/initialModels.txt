@@ -1,0 +1,79 @@
+Metropolis.Company
+Name str required=True
+ContactPhone phone
+ContactPerson str
+WebSite link
+Address txt
+DateAdded date auto_now_add=True
+DateModified date auto_now=True
+
+Metropolis.Shop
+Name str required=True
+Location geopt required=True
+ContactPhone phone
+WorkingDays strlist required=True
+NormalHoursStart time required=True default=8
+NormalHoursEnd time required=True default=20
+WeekendHoursStart time required=True default=10
+WeekendHoursEnd time required=True default=22
+IsWorkingOnWeekend bool default=True
+IsWorkingSunday bool default=False
+DateAdded date auto_now_add=True
+DateModified date auto_now=True
+
+Metropolis.Product
+Name str required=True
+Image link
+IsFloat bool default=False
+UnitName str
+DateAdded date auto_now_add=True
+DateModified date auto_now=True
+
+Metropolis.ShopProduct
+ProductItem ref Product required=True
+IsActive bool default=True
+Name str required=True
+Image link
+Price float
+PriceCurrency str
+IsPromotion bool
+PromotionPrice float
+IsGrouper bool
+GrouperPrice float
+Count float
+
+Metropolis.UserProfile
+ProfilePicture link
+CurrentLocation geopt
+
+Metropolis.ShoppingCard
+Total float
+IsReal bool default=False
+IsApproved bool default=False
+DateCreated dtm auto_now_add=True
+
+Metropolis.ShopingItem
+Card ref Card required=True
+Product ref Product required=True
+ShopFrom ref Shop
+Price float default=0
+Count float default=1
+
+Metropolis.Promotion
+Items strlist
+PromotionLink link
+DateStart date
+DateEnd date
+
+Metropolis.Grouper
+Items strlist
+PromotionLink link
+CountsRequired int
+DateStart date
+DateEnd date
+
+Metropolis.Importer
+Name str
+From ref Shop
+BlobKey str
+DateImported date auto_now_add=True
