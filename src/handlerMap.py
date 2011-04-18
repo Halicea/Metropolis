@@ -32,12 +32,11 @@ webapphandlers = [
 #{%block MetropolisControllers%}
 ('/', MetropolisControllers.ObjectTypes),
 ('/ss', PubSchoolControllers.SearchService),
-('/s', PubSchoolControllers.Search),
 ('/Metropolis/Company', MetropolisControllers.CompanyController),
 ('/Metropolis/Shop', MetropolisControllers.ShopController),
 ('/Metropolis/Product', MetropolisControllers.ProductController),
 (r'/Metropolis/Product/Search/(.*)', MetropolisControllers.ProductSearchController),
-('/Metropolis/Search/(.*)',MetropolisControllers.ProductSearchController),
+(r'/Metropolis/Product/Search', MetropolisControllers.ProductSearchController),
 ('/Metropolis/ShopProduct', MetropolisControllers.ShopProductController),
 ('/Metropolis/UserProfile', MetropolisControllers.ProfileController),
 ('/Metropolis/ShoppingCard', MetropolisControllers.ShoppingCardController),

@@ -74,7 +74,7 @@ var g_mapPanListener = null;
  */
 function init() {
   initMap();
-  initUI();
+  //initUI();
 }
 
 /**
@@ -222,6 +222,7 @@ function enableMapAutoScroll(enable) {
  * Geocodes the location text in the search box and performs a spatial search
  * via doSearch.
  */
+ /*
 function doGeocodeAndSearch() {
   $('#loading').css('visibility', 'visible');
   geocoder.getLocations($('#search-query').val(), function(response) {
@@ -273,7 +274,7 @@ function doGeocodeAndSearch() {
     }
   });
 }
-
+*/
 /**
  * Performs an asynchronous school search using the search service.
  * @param {Object} options Search options.
@@ -291,6 +292,7 @@ function doGeocodeAndSearch() {
  *     search results immediately, as opposed to clearing them only upon a
  *     successful completion of the search.
  */
+ /*
 function doSearch(options) {
   options = options || {};
   
@@ -464,10 +466,11 @@ function doSearch(options) {
   
   enableSearchOnPan();
 }
-
+*/
 /**
  * Clears search results from memory, the list view, and the map view.
  */
+/*
 function clearSearchResults() {
   if (g_searchResults) {
     $('#list-view').html('');
@@ -480,12 +483,13 @@ function clearSearchResults() {
   
   g_searchResults = [];
 }
-
+*/
 /**
  * Creates a search result marker from the given result object.
  * @param {Object} result The search result data object.
  * @type google.maps.Marker
  */
+/*
 function createResultMarker(result) {
   var icon = new google.maps.Icon(G_DEFAULT_ICON);
   icon.image = result.icon;
@@ -514,21 +518,23 @@ function createResultMarker(result) {
   
   return marker;
 }
-
+*/
 /**
  * Creates a list view item from the given result object.
  * @param {Object} result The search result data object.
  * @type jQuery object
  */
+/*
 function createListViewItem(result) {
   var item = $('<li class="result">');
   item.html(tmpl('tpl_result_list_item', { result: result }));
   return item;
 }
-
+*/
 /**
  * Helper method to update one object's properties with another's.
  */
+/*
 function updateObject(dest, src) {
   dest = dest || {};
   src = src || {};
@@ -538,7 +544,7 @@ function updateObject(dest, src) {
   
   return dest;
 }
-
+*/
 /**
  * Formats a grade level for display purposes; i.e. returns 'PK' for level=-1,
  * 'K' for level=0, etc.
@@ -546,6 +552,7 @@ function updateObject(dest, src) {
  *     n for grade n.
  * @type String
  */
+ /*
 function formatGradeLevel(level) {
   if (level === null || typeof(level) == 'undefined')
     return '';
@@ -555,12 +562,13 @@ function formatGradeLevel(level) {
   
   return level.toString();
 }
-
+*/
 /**
  * Formats a distance in meters to a human readable distance in miles.
  * @param {Number} distance The distance in meters.
  * @type String
  */
+/*
 function formatDistance(distance) {
   return (distance / MILES_TO_METERS).toFixed(1) + ' mi';
-}
+}*/

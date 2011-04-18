@@ -250,12 +250,14 @@ class ProductSearchController(hrh):
     def SetOperations(self):
         self.operations = {'default':{'method':'search'}}
     def search(self, searchCondition=None, *args, **kwargs):
+        self.SetTemplate(templateName='index.html')
         mySearch = urllib.unquote(searchCondition or self.params.searchCondition)
         if mySearch:
-            return Product.all().fetch(limit=1000, offset=0) or "No product found for <b>%s</b> search!"%mySearch
+            self.respond({'results':Product.all().fetch(limit=1000, offset=0)})
         else:
-            return "No Condition given, so no results displayed!"+ str(args)
-        
+            self.status= "No Condition given, so no results displayed!"
+            self.respond()
+            
 class ShopProductController(hrh):
     def delete(self,*args):
         if self.params.key:

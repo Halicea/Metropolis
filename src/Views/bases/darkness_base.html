@@ -44,9 +44,8 @@
 {% block analitics %}
 {%endblock%}
 </head>
-{%block body_tag%}
- <body style="background-image:url('/images/lime-background-skinny-1.jpg'); background-repeat:no-repeat; background-position: center top;">
-{%endblock%}
+
+ <body {%block in_body_tag%}style="background-image:url('/images/lime-background-skinny-1.jpg'); background-repeat:no-repeat; background-position: center top;" {%endblock%}>
 <div style="width: 100%;">
 <div style="height: 1120px; width: 1000px; margin-left: auto; margin-right: auto;" class="">
 	<div id="top_content" style="padding-bottom: 10px">
@@ -82,7 +81,7 @@
 			
 		</div>
 		{%endcomment%}	
-		<div id="main_container" style="float: left;width: 800px; padding: 0px; margin-right:10px; min-height: 603px;" class="ui-corner-all">
+		<div id="main_container" style="float: left;width: 800px; height:15px; padding: 0px; margin-right:10px; min-height: 603px;" class="ui-corner-all">
 			{% block status %}
 				Status 
 			{% endblock %}
