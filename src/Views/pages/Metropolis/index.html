@@ -14,9 +14,7 @@
 </script>
 {%endblock%}
 
-{%block body_tag%}
-<body onunload="GUnload()"> 
-{%endblock%}
+{%block in_body_tag%}{{block.super}} onunload="GUnload()" {%endblock%}
 
 {%block content%}
     <div id="container">
@@ -27,6 +25,6 @@
           </div>
         </form>
       	<hr />
-        <div id="map" style='width:800px;height:560px'></div>
+        <div id="map" style='width:800px;height:545px'></div>
     </div>
 {%endblock%}  
