@@ -8,9 +8,7 @@ from handlerMap import webapphandlers
 #from google.appengine.ext import webapp
 from lib.webapp2 import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
-#from lib import webapp2 as webapp
 from lib.gaesessions import SessionMiddleware
-
 application = webapp.WSGIApplication(webapphandlers, debug=settings.DEBUG)
 
 COOKIE_KEY = '''2zÆœ;¾±þ”¡j:ÁõkçŸÐ÷8{»Ën¿A—jÎžQAQqõ"bøó÷*%†™ù¹b¦$vš¡¾4ÇŸ^ñ5¦'''

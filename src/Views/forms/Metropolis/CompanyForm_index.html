@@ -1,13 +1,19 @@
 <h2>Company List: </h2>
 <table>
-{% for item in CompanyList %}
+{% for Company in CompanyList %}
     <tr>
         <td>
-            {{item}}
+            {{Company}}
         </td>
-        <td><a class='detail' href='{%url CompanyController %}?op=edit&key={{item.key}}'>Edit</a></td>
-        <td><a class='detail' href='{%url CompanyController %}?op=details&key={{item.key}}'>Detail</a></td>
-        <td> <a class='delete' href='{%url CompanyController %}?op=delete&key={{item.key}}'>Delete</a></td>
+        <td><a class='detail' href='{%url CompanyController %}?op=edit&key={{Company.key}}'>Edit</a></td>
+        <td><a class='detail' href='{%url CompanyController %}?op=details&key={{Company.key}}'>Detail</a></td>
+        <td> <a class='delete' href='{%url CompanyController %}?op=delete&key={{Company.key}}'>Delete</a></td>
+    </tr>
+    <tr>
+    	<td colspan="2">Shops:</td>
+    	<td colspan="2">
+            {%include ShopForm_collapsible_index %}
+    	</td>
     </tr>
 {% endfor %}
 {%ifequal previousIndex -1 %}{%else%}<a href="{%url CompanyController %}?op=index&index={{previousIndex}}">Previous</a>{%endifequal%}

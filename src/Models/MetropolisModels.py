@@ -1,10 +1,12 @@
 import settings
 from google.appengine.ext import db
+from lib.Metropolis.Constants import *
 from lib.geo.geomodel import GeoModel
 #{% block imports%}
 from Models.BaseModels import Person
 #{%endblock%}
 ################
+
 class Company(db.Model):
     """TODO: Describe Company"""
     Name= db.StringProperty(required=True)
@@ -34,9 +36,8 @@ class Shop(GeoModel):
     """TODO: Describe Shop"""
     Company = db.ReferenceProperty(reference_class=Company, collection_name="company_shops")
     Name= db.StringProperty(required=True, )
-    Location= db.GeoPtProperty(required=True, )
     ContactPhone= db.PhoneNumberProperty()
-    WorkingDays= db.StringListProperty(required=True, )
+    WorkingDays= db.StringListProperty(required=True, )#choices=[x[0] for x in Days])
     NormalHoursStart= db.TimeProperty(required=True, default=8, )
     NormalHoursEnd= db.TimeProperty(required=True, default=20, )
     WeekendHoursStart= db.TimeProperty(required=True, default=10, )
@@ -45,7 +46,9 @@ class Shop(GeoModel):
     IsWorkingSunday= db.BooleanProperty(default=False, )
     DateAdded= db.DateProperty(auto_now_add=True)
     DateModified = db.DateProperty(auto_now=True)
-    
+    def put(self):
+        self.update_location()
+        super(Shop, self).put()
     @classmethod
     def CreateNew(cls ,name,location,contactphone,workingdays,normalhoursstart,normalhoursend,weekendhoursstart,weekendhoursend,isworkingonweekend,isworkingsunday , _isAutoInsert=False):
         result = cls(
@@ -63,7 +66,7 @@ class Shop(GeoModel):
         return result
     def __str__(self):
         #TODO: Change the method to represent something meaningful
-        return self.Name+"("+self.Company.Name+")"+str(self.Location) 
+        return self.Name+"("+self.Company.Name+")"+str(self.location) 
 ## End Shop
 
 class ProductCategory(db.Model):
@@ -77,7 +80,7 @@ class Product(db.Model):
     Categories = db.ListProperty(db.Key)
     Image= db.LinkProperty()
     IsFloat= db.BooleanProperty(default=False, )
-    UnitName= db.StringProperty()
+    UnitName= db.StringProperty(choices=Units)
     DateAdded= db.DateProperty(auto_now_add=True)
     DateModified = db.DateProperty(auto_now=True)
     
@@ -103,7 +106,7 @@ class ShopProduct(GeoModel):
     Name= db.StringProperty(required=True, )
     Image= db.LinkProperty()
     Price= db.FloatProperty()
-    PriceCurrency= db.StringProperty()
+    PriceCurrency= db.StringProperty(choices=CurrencyList)
     #Promotion
     IsPromotion= db.BooleanProperty()
     PromotionPrice= db.FloatProperty()
@@ -115,6 +118,10 @@ class ShopProduct(GeoModel):
     Count= db.FloatProperty()
     DateAdded= db.DateProperty(auto_now_add=True)
     DateModified = db.DateProperty(auto_now=True)
+    
+    def put(self):
+        self.update_location()
+        super(ShopProduct, self).put()
     
     @classmethod
     def CreateNew(cls ,productitem,isactive,name,image,price,pricecurrency,ispromotion,promotionprice,isgrouper,grouperprice,count , _isAutoInsert=False):

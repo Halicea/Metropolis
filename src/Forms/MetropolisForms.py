@@ -4,7 +4,19 @@ from Models.MetropolisModels import *
 #{%block imports%}
 #{%endblock%}
 ###############
-
+class SelectMultiple(widgets.SelectMultiple):
+    def value_from_datadict(self, data, files, name):
+        try:
+            return data.getall(name)
+        except:
+            return data.get(name, None)
+class CheckboxSelectMultiple(widgets.CheckboxSelectMultiple):
+    
+    def value_from_datadict(data, name):
+        try:
+            return data.getall(name)
+        except:
+            return data.get(name, None)
 class CompanyForm(ModelForm):
     class Meta():
         model=Company
@@ -12,9 +24,10 @@ class CompanyForm(ModelForm):
 ##End Company
 
 class ShopForm(ModelForm):
+    WorkingDays = fields.MultipleChoiceField(widget=CheckboxSelectMultiple,choices=Days)
     class Meta():
         model=Shop
-        #exclude
+        exclude=['location_geocells']
 ##End Shop
 
 class ProductForm(ModelForm):
@@ -26,7 +39,7 @@ class ProductForm(ModelForm):
 class ShopProductForm(ModelForm):
     class Meta():
         model=ShopProduct
-        #exclude
+        exclude=['location_geocells']
 ##End ShopProduct
 
 class ProfileForm(ModelForm):

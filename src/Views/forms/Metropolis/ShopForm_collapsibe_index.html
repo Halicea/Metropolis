@@ -1,0 +1,12 @@
+<table id="company_shops">
+	{% for item in Company.company_shops %}
+    <tr>
+        <td>
+            {{item}}
+        </td>
+        <td><a class='detail' href='{%url ShopController %}?op=edit&key={{item.key}}'>Edit</a></td>
+        <td><a class='detail' href='{%url ShopController %}?op=details&key={{item.key}}'>Detail</a></td>
+        <td> <a class='delete' href='{%url ShopController %}?op=delete&key={{item.key}}'>Delete</a></td>
+    </tr>
+	{% endfor %}
+</table>
