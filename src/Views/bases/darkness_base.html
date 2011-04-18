@@ -26,7 +26,7 @@
 <!--[if IE]>
 <style type="text/css">
 .transparentBox{
-    background: rgba(0, 0, 0, 0.3);
+    background: rgblib/a(0, 0, 0, 0.3);
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#80000000, endColorstr=#00000000);
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#50000000, endColorstr=#50000000)";
     background:transparent;
@@ -44,7 +44,9 @@
 {% block analitics %}
 {%endblock%}
 </head>
-<body style="background-image:url('/images/lime-background-skinny-1.jpg'); background-repeat:no-repeat; background-position: center top;">
+{%block body_tag%}
+ <body style="background-image:url('/images/lime-background-skinny-1.jpg'); background-repeat:no-repeat; background-position: center top;">
+{%endblock%}
 <div style="width: 100%;">
 <div style="height: 1120px; width: 1000px; margin-left: auto; margin-right: auto;" class="">
 	<div id="top_content" style="padding-bottom: 10px">

@@ -3,6 +3,7 @@ from Controllers import BaseControllers
 from Controllers import StaticControllers
 from Controllers import ShellControllers
 from Controllers import MetropolisControllers
+from Controllers import PubSchoolControllers
 #{%endblock%}
 
 webapphandlers = [
@@ -30,6 +31,8 @@ webapphandlers = [
 
 #{%block MetropolisControllers%}
 ('/', MetropolisControllers.ObjectTypes),
+('/ss', PubSchoolControllers.SearchService),
+('/s', PubSchoolControllers.Search),
 ('/Metropolis/Company', MetropolisControllers.CompanyController),
 ('/Metropolis/Shop', MetropolisControllers.ShopController),
 ('/Metropolis/Product', MetropolisControllers.ProductController),

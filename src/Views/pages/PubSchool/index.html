@@ -1,0 +1,32 @@
+{%extends base%}
+
+{%block scripts%}
+{{block.super}}
+<script type="text/javascript" src="http://www.google.com/jsapi?key={{jsapi_key}}"></script>
+
+<script type="text/javascript" src="/jscripts/jquery.scrollTo-1.4.2-min.js"></script>
+<script type="text/javascript" src="/jscripts/microtemplate.js"></script>
+
+<script type="text/javascript" src="/jscripts/GeoLoc/front.js"></script>
+<script type="text/javascript">
+  google.load('maps', '2');
+  google.setOnLoadCallback(init);    // insert teh codez
+</script>
+{%endblock%}
+
+{%block body_tag%}
+<body onunload="GUnload()"> 
+{%endblock%}
+
+{%block content%}
+    <div id="container">
+        <form action="" onsubmit="doGeocodeAndSearch(); return false;">
+          <div id="search-container">
+            <input id="search-query" type="search" />
+            <input type="submit" value="Search"/>
+          </div>
+        </form>
+      	<hr />
+        <div id="map" style='width:800px;height:560px'></div>
+    </div>
+{%endblock%}  
