@@ -1,0 +1,29 @@
+	<td>
+		<table>
+		<tr><td><h3>{{Company.Name}}<h3></td><td>{{Company.ContactPhone}}</td></tr>
+		<tr><td colspan="2">{{Company.Address}}</td></tr>
+		<tr><td colspan="2"><b>{{Company.ContactPerson}}</b></td></tr>
+		<tr><td colspan="2"><a href="{{Company.WebSite}}"></td></tr>
+		<tr class='collapsible'><td>Shops:</td><td>
+			<table id="company_shops">
+			{% for item in Company.company_shops %}
+		    <tr>
+		        <td>
+		            {{item}}
+		        </td>
+		        <td><a class='detail' href='{%url ShopController %}?op=edit&key={{item.key}}'>Edit</a></td>
+		        <td><a class='detail' href='{%url ShopController %}?op=details&key={{item.key}}'>Detail</a></td>
+		        <td> <a class='delete' href='{%url ShopController %}?op=delete&key={{item.key}}'>Delete</a></td>
+		    </tr>
+			{% endfor %}
+			</table>
+		</td>
+			
+		</tr>
+		</table>
+	</td>
+	<td class="ui-widget-header">
+		<a class='detail' href='{%url CompanyController %}?op=edit&key={{Company.key}}'>Edit</a>
+      	<a class='detail' href='{%url CompanyController %}?op=details&key={{Company.key}}'>Detail</a>
+        <a class='delete' href='{%url CompanyController %}?op=delete&key={{Company.key}}'>Delete</a>	
+	</td>

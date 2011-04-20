@@ -4,7 +4,10 @@
 {% endblock %}
 
 {% block content %}
-<div id='ProductForm_details'>
-{%include ProductForm_details %}
+<div id='Product_details'>
+{%include Product_details %}
+<a href="{%url ProductController%}?op=edit&key={{Product.key}}">Edit</a>
+<a href="{%url ProductController%}?op=delete&key={{Product.key}}">Delete</a>
+<a href="{%url ProductController%}">Index</a>
 </div>
 {% endblock %}

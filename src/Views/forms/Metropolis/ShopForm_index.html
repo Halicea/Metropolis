@@ -1,17 +1,18 @@
 <h2>Shop List: </h2>
 <table>
-{% for item in ShopList %}
-    <tr>
-        <td>
-            {{item}}
-        </td>
-        <td><a class='detail' href='{%url ShopController %}?op=edit&key={{item.key}}'>Edit</a></td>
-        <td><a class='detail' href='{%url ShopController %}?op=details&key={{item.key}}'>Detail</a></td>
-        <td> <a class='delete' href='{%url ShopController %}?op=delete&key={{item.key}}'>Delete</a></td>
-    </tr>
+{% for Shop in ShopList %}
+	<tr>
+		{%include Shop_details %}	
+		<td class="ui-widget-header">
+			<a class='detail' href='{%url ShopController %}?op=edit&key={{Shop.key}}'>Edit</a>
+		    <a class='delete' href='{%url ShopController %}?op=delete&key={{Shop.key}}'>Delete</a>
+		    <a class='detail' href='{%url ShopController %}'>Index</a>	
+		</td>
+	</tr>
 {% endfor %}
+</table>
 {%ifequal previousIndex -1 %}{%else%}<a href="{%url ShopController %}?op=index&index={{previousIndex}}">Previous</a>{%endifequal%}
  | {%ifequal nextIndex 0 %}{%else%}<a href="{%url ShopController %}?op=index&index={{nextIndex}}">Next</a>{%endifequal%}
  
-</table>
+
 <h3><a href='{%url ShopController %}?op=edit'>New</a><h3>

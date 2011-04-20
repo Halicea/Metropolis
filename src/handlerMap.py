@@ -37,6 +37,7 @@ webapphandlers = [
 ('/Metropolis/Product', MetropolisControllers.ProductController),
 (r'/Metropolis/Product/Search/(.*)', MetropolisControllers.ProductSearchController),
 (r'/Metropolis/Product/Search', MetropolisControllers.ProductSearchController),
+('/Metropolis/Category/(.*)', MetropolisControllers.ProductCategoryController),
 ('/Metropolis/ShopProduct', MetropolisControllers.ShopProductController),
 ('/Metropolis/UserProfile', MetropolisControllers.ProfileController),
 ('/Metropolis/ShoppingCard', MetropolisControllers.ShoppingCardController),

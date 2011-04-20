@@ -4,11 +4,18 @@ import settings
 os.environ['DJANGO_SETTINGS_MODULE']  = 'settings'
 #from google.appengine.dist import use_library
 #use_library('django', '1.2')
-from handlerMap import webapphandlers
-#from google.appengine.ext import webapp
+from SvcHandlerMap import webapphandlers
 from lib.webapp2 import webapp
+from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from lib.gaesessions import SessionMiddleware
+from django.conf import settings as sett
+#sett.configure(TEMPLATE_DIRS=settings.TEMPLATE_DIRS)
+
+template.register_template_library(
+    'django.contrib.humanize.templatetags.humanize')
+template.register_template_library('lib.halicea.templatelib')
+
 application = webapp.WSGIApplication(webapphandlers, debug=settings.DEBUG)
 
 COOKIE_KEY = '''2zÆœ;¾±þ”¡j:ÁõkçŸÐ÷8{»Ën¿A—jÎžQAQqõ"bøó÷*%†™ù¹b¦$vš¡¾4ÇŸ^ñ5¦'''

@@ -1,0 +1,15 @@
+<td class="ui-widget-content">
+	<table>
+	<tr><td><h3>{{Shop.Name}}<h3></td><td><a href="{%url CompanyController%}?op=details&key={{Shop.Company.key}}">{{Shop.Company.Name}}</a>-{{Shop.ContactPhone}}</td></tr>
+	<tr class='collapsible'>
+		<td>Working Days:</td>
+		<td collspan="3">
+			<table id="company_shops">
+			{% for day in Shop.WorkingDays %}
+		    	{{day}}<input type="checkbox" readonly="readonly" checked="checked"/>|
+			{% endfor %}
+			</table>
+		</td>
+	</tr>
+	</table>
+</td>

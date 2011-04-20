@@ -1,22 +1,23 @@
 from lib.djangoFormImports import widgets, fields, extras
+from django.newforms import Form
 from google.appengine.ext.db.djangoforms import ModelForm
 from Models.MetropolisModels import *
 #{%block imports%}
 #{%endblock%}
 ###############
-class SelectMultiple(widgets.SelectMultiple):
-    def value_from_datadict(self, data, files, name):
-        try:
-            return data.getall(name)
-        except:
-            return data.get(name, None)
-class CheckboxSelectMultiple(widgets.CheckboxSelectMultiple):
-    
-    def value_from_datadict(data, name):
-        try:
-            return data.getall(name)
-        except:
-            return data.get(name, None)
+#class SelectMultiple(widgets.SelectMultiple):
+#    def value_from_datadict(self, data, files, name):
+#        try:
+#            return data.getall(name)
+#        except:
+#            return data.get(name, None)
+#class CheckboxSelectMultiple(widgets.CheckboxSelectMultiple):
+#    
+#    def value_from_datadict(data, name):
+#        try:
+#            return data.getall(name)
+#        except:
+#            return data.get(name, None)
 class CompanyForm(ModelForm):
     class Meta():
         model=Company
@@ -24,7 +25,7 @@ class CompanyForm(ModelForm):
 ##End Company
 
 class ShopForm(ModelForm):
-    WorkingDays = fields.MultipleChoiceField(widget=CheckboxSelectMultiple,choices=Days)
+    #Working_Days_Widget = fields.MultipleChoiceField(widget=widgets.CheckboxSelectMultiple,choices=Days)
     class Meta():
         model=Shop
         exclude=['location_geocells']

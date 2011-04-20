@@ -44,9 +44,13 @@ class MetropolisHandlers(hrh):
         from handlerMap import webapphandlers as wah
         response = "<html><title></title><body>{{items}}</body></html>"
         self.respond_static(response.replace("{{items}}", '<br/>'.join(["<a href='"+x[0]+"'>"+x[0]+"</a>" for x in wah])))
-
 class CompanyController(hrh):
-    
+#    def SetOperations(self):
+#        self.operations.update({'search':{'method':self.search}})
+    def search(self, *args):
+        if self.params.search:
+            pass
+            
     def delete(self,*args):
         if self.params.key:
             item = Company.get(self.params.key)
@@ -172,12 +176,12 @@ class ShopController(hrh):
         if self.params.key:
             item = Shop.get(self.params.key)
             if item:
-                return {'op':'upd', 'ShopForm': ShopForm(instance=item)}
+                return {'Shop': item }
             else:
                 self.status = 'Shop does not exists'
                 self.redirect(ShopController.get_url())
         else:
-            return {'op':'insert' ,'ShopForm':ShopForm()}
+            self.redirect(ShopController.get_url())
 
 class ProductController(hrh):
     
@@ -238,13 +242,13 @@ class ProductController(hrh):
         if self.params.key:
             item = Product.get(self.params.key)
             if item:
-                return {'op':'update', 'ProductForm': ProductForm(instance=item)}
+                return {'op':'update', 'Product': item}
             else:
                 self.status = 'Product does not exists'
                 self.redirect(ProductController.get_url())
         else:
             self.status = 'Key not provided'
-            return {'op':'insert' ,'ProductForm':ProductForm()}
+            self.redirect(ProductController.get_url())
 
 class ProductSearchController(hrh):
     def SetOperations(self):
@@ -257,7 +261,13 @@ class ProductSearchController(hrh):
         else:
             self.status= "No Condition given, so no results displayed!"
             self.respond()
-            
+class ProductCategoryController(hrh):
+    def SetOperations(self):
+        self.operations = {'default':{'method':'search'}}
+    def search(self, searchItem,  *args, **kwargs):
+        self.SetTemplate(templateName="Product_index.html")
+        return {"ProductList":Product.gql("WHERE Categories = :s", s=searchItem).fetch(limit=100, offset=0)}
+    
 class ShopProductController(hrh):
     def delete(self,*args):
         if self.params.key:

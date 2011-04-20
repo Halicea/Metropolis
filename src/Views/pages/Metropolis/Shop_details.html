@@ -4,7 +4,17 @@
 {% endblock %}
 
 {% block content %}
-<div id='ShopForm_details'>
-{%include ShopForm_details %}
+<div id='Shop_details'>
+<table class="ui-corner-all ui-widget-content">
+	<tr>
+		{%include Shop_details %}	
+		<td class="ui-widget-header">
+			<a class='detail' href='{%url ShopController %}?op=edit&key={{Shop.key}}'>Edit</a>
+		    <a class='delete' href='{%url ShopController %}?op=delete&key={{Shop.key}}'>Delete</a>
+		    <a class='detail' href='{%url ShopController %}'>Index</a>	
+		</td>
+	</tr>
+	
+</table>
 </div>
 {% endblock %}

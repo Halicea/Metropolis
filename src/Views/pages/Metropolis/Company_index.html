@@ -4,7 +4,17 @@
 {% endblock %}
 
 {% block content %}
+
 <div id='CompanyForm_index'>
+<div id="Search">
+	<form method="POST" action="{%url CompanyController%}" >
+		<input type="hidden" name="op" value="search" />
+		<input type="text" name="search" />
+		<input type="submit" value="Search" />
+	</form>
+</div>
+<hr/>
 {%include CompanyForm_index %}
+<h3><a href='{%url CompanyController %}?op=edit'>New</a><h3>
 </div>
 {% endblock %}

@@ -25,7 +25,8 @@ def getViewsDict(dir, base=''):
                 rf = os.path.join(dir, f)
                 if os.path.isfile(rf):
                     
-                    result[f[:f.rindex('.')]] = os.path.abspath(rf)[base and base.length or 0:]
+                    result[f[:f.rindex('.')]] = os.path.abspath(rf)
+#                    [base and base.length or 0:]
     else:
         memcache.add(key='paths_ViewsDict', value=result)
     return result

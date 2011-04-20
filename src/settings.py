@@ -62,7 +62,7 @@ DEFAULT_OPERATIONS = {
                       'delete':{'method':dcm.delete, 'view':False},
                      }
 #DJANGO APP SETTINGS SECTION
-TEMPLATE_DIRS = (VIEWS_DIR)
+TEMPLATE_DIRS = (VIEWS_DIR,)
 ROOT_URLCONF ='handlerMap'
 #PASTE YOUR CONFIGURATION HERE
 #jsapi_key='ABQIAAAA5y1tNA-GW4-7qtOxtTcJ-xTvkspMFOmaAPKjDlzLMgc3oRj-JRSrZ-t-ea1Tu2t3kBlj0e_nCtiEkA'

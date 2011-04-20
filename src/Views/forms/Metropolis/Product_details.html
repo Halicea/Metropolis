@@ -1,0 +1,8 @@
+<div class='ui-widget-content ui-corner-all'>
+	<b>{{Product.Name}}</b>
+	<img src="{{Product.Image}}" style="width:50px;">
+	{%for c in Product.Categories%}
+		<a href="{%url ProductCategoryController%}/{{c.CategoryName}}">{{c.CategoryName}}</a>&nbsp;
+	{%endfor%}
+	<i>Added:{{Product.DateAdded}} | Modified:{{Product.DateModified}}</i>
+</div>

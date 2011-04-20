@@ -1,13 +1,13 @@
 <h2>Product List: </h2>
 <table>
-{% for item in ProductList %}
+{% for Product in ProductList %}
     <tr>
         <td>
-            {{item}}
+            {%include Product_details%}
         </td>
-        <td><a class='detail' href='{%url ProductController %}?op=edit&key={{item.key}}'>Edit</a></td>
-        <td><a class='detail' href='{%url ProductController %}?op=details&key={{item.key}}'>Detail</a></td>
-        <td> <a class='delete' href='{%url ProductController %}?op=delete&key={{item.key}}'>Delete</a></td>
+        <td><a class='detail' href='{%url ProductController %}?op=edit&key={{Product.key}}'>Edit</a></td>
+        <td><a class='detail' href='{%url ProductController %}?op=details&key={{Product.key}}'>Detail</a></td>
+        <td> <a class='delete' href='{%url ProductController %}?op=delete&key={{Product.key}}'>Delete</a></td>
     </tr>
 {% endfor %}
 {%ifequal previousIndex -1 %}{%else%}<a href="{%url ProductController %}?op=index&index={{previousIndex}}">Previous</a>{%endifequal%}

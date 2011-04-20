@@ -23,7 +23,10 @@ handlers:
 - url: /stats.*
   script: $PYTHON_LIB/google/appengine/ext/appstats/ui.py
   login: admin
-  
+- url: /s/.*
+  script: mainSvc.py
+- url: /s
+  script: mainSvc.py
 - url: /.*
-  script: main.py
+  script: mainWeb.py
 

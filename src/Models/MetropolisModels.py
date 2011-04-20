@@ -1,9 +1,10 @@
-import settings
 from google.appengine.ext import db
+from datetime import datetime, time
+#{% block imports%}
+import settings
+from Models.BaseModels import Person
 from lib.Metropolis.Constants import *
 from lib.geo.geomodel import GeoModel
-#{% block imports%}
-from Models.BaseModels import Person
 #{%endblock%}
 ################
 
@@ -38,10 +39,10 @@ class Shop(GeoModel):
     Name= db.StringProperty(required=True, )
     ContactPhone= db.PhoneNumberProperty()
     WorkingDays= db.StringListProperty(required=True, )#choices=[x[0] for x in Days])
-    NormalHoursStart= db.TimeProperty(required=True, default=8, )
-    NormalHoursEnd= db.TimeProperty(required=True, default=20, )
-    WeekendHoursStart= db.TimeProperty(required=True, default=10, )
-    WeekendHoursEnd= db.TimeProperty(required=True, default=22, )
+    NormalHoursStart= db.TimeProperty(required=True, default=time(8,0), )
+    NormalHoursEnd= db.TimeProperty(required=True, default=time(20,0) ,)
+    WeekendHoursStart= db.TimeProperty(required=True, default=time(10, 00), )
+    WeekendHoursEnd= db.TimeProperty(required=True, default=time(22,00), )
     IsWorkingOnWeekend= db.BooleanProperty(default=True, )
     IsWorkingSunday= db.BooleanProperty(default=False, )
     DateAdded= db.DateProperty(auto_now_add=True)
@@ -77,7 +78,7 @@ class ProductCategory(db.Model):
 class Product(db.Model):
     """TODO: Describe Product"""
     Name= db.StringProperty(required=True, )
-    Categories = db.ListProperty(db.Key)
+    Categories = db.StringListProperty()
     Image= db.LinkProperty()
     IsFloat= db.BooleanProperty(default=False, )
     UnitName= db.StringProperty(choices=Units)
@@ -211,7 +212,6 @@ class ShopingItem(db.Model):
         return str(self.Price)+str(self.Currency)+'x'+self.Count+'-'+self.Product.Name
 ## End ShopingItem
 
-
 class Promotion(db.Model):
     """TODO: Describe Promotion"""
     Items= db.ListProperty(db.Key, required=True)
@@ -239,7 +239,6 @@ class Promotion(db.Model):
     def __str__(self):
         #TODO: Change the method to represent something meaningful
         return  ', '.join([x.Name for x in db.get(self.Items)])
-
 ## End Promotion
 
 class Grouper(db.Model):
